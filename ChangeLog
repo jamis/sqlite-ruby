@@ -1,0 +1,403 @@
+2005-01-30 21:32  jamis
+
+	* Removed source of deprecation warnings on Object#id in faq.rb.
+
+2005-01-30 21:30  jamis
+
+	* Version bump.
+
+2005-01-25 14:54  jamis
+
+	* Added out-of-the-box support for /usr/local installations.
+
+2005-01-09 08:02  jamis
+
+	* Moved to subversion. Changed layout to support tagging and branching
+
+2005-01-07 12:33  minam
+
+	* README, doc/faq/faq.yml: Fixed some typos.
+
+2004-11-14 20:22  minam
+
+	* lib/sqlite/parsed_statement.rb, lib/sqlite/version.rb,
+	  test/tc_parsed_statement.rb: Fixed bug in ParsedStatement that
+	  resulted in "create trigger" statements being parsed incorrectly
+	  (due to valid semicolons within the body of the statement).
+	  Incremented patch (tiny) version number.
+
+2004-11-01 22:52  minam
+
+	* lib/sqlite/version.rb: Version bump reflecting minor bug-fix.
+
+2004-11-01 22:41  minam
+
+	* lib/sqlite/resultset.rb, lib/sqlite/statement.rb,
+	  test/tc_database.rb: Fixed item #988 "Batch processing bug with
+	  trailing newline".
+
+2004-10-26 14:14  minam
+
+	* lib/sqlite/version.rb: Version bump consistent with addition of
+	  new API, and backwards-compatible alterations of existing API.
+
+2004-10-26 14:13  minam
+
+	* lib/sqlite/statement.rb, test/tc_database.rb: Made
+	  Statement#execute accept bind parameters as arguments. Added
+	  Statement#execute! for returning an array of results from
+	  executing a prepared statement.
+
+2004-10-18 09:39  minam
+
+	* sqlite-ruby-win32.gemspec, ext/sqlite-api.c,
+	  lib/sqlite/version.rb: Applied patch from Garrett Rooney <rooneg
+	  at electricjellyfish dot net>, to clean up compiler warnings and
+	  remove unused functions and prototypes.
+
+2004-09-27 08:46  minam
+
+	* sqlite-ruby.gemspec, lib/sqlite/version.rb: Version bump and
+	  gemspec mod in preparation for release 2.1.0.
+
+2004-09-20 16:18  minam
+
+	* ext/sqlite-api.c: static_protected_function_callback was not
+	  returning a value.
+
+2004-09-20 12:01  minam
+
+	* Rakefile: The pubfaq task wasn't uploading.
+
+2004-09-20 11:45  minam
+
+	* lib/sqlite/version.rb: Version bump.
+
+2004-09-20 11:44  minam
+
+	* test/: tc_api_core.rb, tc_database.rb: Updated test cases for
+	  changes in code (no more ":error" key, fixed problem with memory
+	  leak, etc.).
+
+2004-09-20 11:43  minam
+
+	* lib/sqlite/: resultset.rb, statement.rb: Errors are now always
+	  raised, instead of reported explicitly via the ":error" key in
+	  the result set. This cleaned up a lot of cruft.
+
+2004-09-20 11:39  minam
+
+	* lib/sqlite/database.rb: Got rid of the whole "fragile_error"
+	  nonsense. Made better use of set_result_error now that it is
+	  working correctly. Fixed how callbacks are handled for the
+	  create_function and create_aggregate APIs.
+
+2004-09-20 11:37  minam
+
+	* ext/sqlite-api.c: It is no longer an error to finalize a
+	  finalized VM (it just silently ignores it).  Fixed memory leak
+	  when reporting a MisuseException ('msg' was NULL, but was being
+	  freed). VM is now finalized automatically when an error is
+	  detected during step.
+
+2004-09-12 20:16  minam
+
+	* test/tc_database.rb: Added assertions to demonstrate correct
+	  behavior of Database#transaction_active?
+
+2004-09-12 20:14  minam
+
+	* lib/sqlite/statement.rb: Fixed stray reference to now-nonexistant
+	  Statement#execute_immediate.
+
+2004-09-12 20:06  minam
+
+	* doc/faq/faq.yml, ext/sqlite-api.c, lib/sqlite/database.rb,
+	  lib/sqlite/resultset.rb, lib/sqlite/statement.rb,
+	  test/tc_database.rb: ResultSet#initialize now invokes API::step,
+	  so that Statement#execute will execute the query. This makes
+	  doing DDL statements friendlier. Also changed
+	  Database#execute_immediate to Database#execute_batch, and
+	  Statement#execute_immediate went away. A problem with fragility
+	  in callbacks was discovered, so exceptions raised inside of a
+	  callback will only result in a warning message, not a raised
+	  exception. Likewise, using FunctionProxy#set_error can result in
+	  segmentation faults... uknown why.
+
+2004-09-12 10:04  minam
+
+	* Rakefile, sqlite-ruby.gemspec, sqlite.gemspec, ext/sqlite-api.c,
+	  lib/sqlite.rb, lib/sqlite/version.rb, test/tc_api_core.rb,
+	  test/tc_database.rb: Inspired by Copland: Rakefile is much
+	  better, version information for library is stored in its own
+	  module (which Rakefile uses directoy). Also renamed gemspec file
+	  to be the name of the project. Gem packages will now be named
+	  after the project as well, instead of "sqlite".
+
+2004-09-10 20:57  minam
+
+	* sqlite.gemspec, ext/sqlite-api.c, lib/sqlite/database.rb: Version
+	  bump (2.0.2) and fixed typo in Database documentation.
+
+2004-09-10 20:31  minam
+
+	* sqlite.gemspec, doc/faq/faq.yml, lib/sqlite/database.rb,
+	  test/tc_database.rb: Added support for transactions.
+
+2004-09-10 17:27  minam
+
+	* Rakefile, sqlite.gemspec, doc/faq/faq.yml,
+	  lib/sqlite/database.rb, lib/sqlite/statement.rb,
+	  test/tc_database.rb: Changed "execute_all" to
+	  "execute_immediate", added "execute_immediate" to Statement.
+	  Added Rakefile. Updated unit tests.
+
+2004-09-10 13:48  minam
+
+	* doc/faq/faq.yml, lib/sqlite/statement.rb: Added notice to FAQ
+	  telling that prepared statements are not actually executed until
+	  the result set's #next method is invoked. (This is important for
+	  DDL statements in particular.)
+
+	  Also fixed documentation bug in statement.rb. (Thanks to Vincent
+	  Isambart for reporting both issues.)
+
+2004-09-10 11:44  minam
+
+	* sqlite.gemspec: Added doc directory to gemspec.
+
+2004-09-10 11:42  minam
+
+	* ChangeLog, README, ext/sqlite-api.c: Removed ChangeLog (in favor
+	  of using cvs2cl tool). Bumped version number in sqlite-api.c.
+	  Added link to FAQ in README.
+
+2004-09-10 11:36  minam
+
+	* ChangeLog, sqlite.gemspec, doc/faq/faq.rb, doc/faq/faq.yml,
+	  lib/sqlite/parsed_statement.rb, test/tc_database.rb: Added a FAQ
+	  in lieu of "real" documentation. Added comment support in parsed
+	  statement. Version bump in gemspec.
+
+2004-09-09 23:06  minam
+
+	* ext/extconf.rb, ext/sqlite-api.c, lib/sqlite/database.rb,
+	  lib/sqlite/parsed_statement.rb, lib/sqlite/resultset.rb,
+	  lib/sqlite/statement.rb, test/tc_api_core.rb,
+	  test/tc_parsed_statement.rb: Removed all of the "experimental"
+	  functions. Replaced "bind" with a much richer suite of
+	  functionality implemented in Ruby (SQLite::ParsedStatement).
+	  Unit tests all pass.
+
+2004-09-09 15:47  minam
+
+	* ext/: extconf.rb, sqlite-api.c: Check for existence of the
+	  "experimental" functions, and only implement the wrappers for
+	  them if they exist. Also, removed dependency on unistd.h and
+	  sleep().
+
+2004-09-09 12:40  minam
+
+	* sqlite.gemspec, ext/sqlite-api.c, lib/sqlite/database.rb,
+	  lib/sqlite/pragmas.rb, lib/sqlite/statement.rb,
+	  test/tc_api_core.rb, test/tc_database.rb, test/tc_pragmas.rb:
+	  Moved all exceptions to an "Exceptions" module. Updated code to
+	  reflect the move, and added a test case to check for
+	  MisuseException when accessing aggregate methods from
+	  non-aggregate functions.
+
+2004-09-09 10:12  minam
+
+	* README, test/tc_api_core.rb, test/tc_arrayfields.rb,
+	  test/tc_database.rb, test/tc_pragmas.rb, test/tc_translator.rb,
+	  test/tc_type_translation.rb, test/tests.rb: Tests now build their
+	  own up-to-date copy of the extension library, like they used to.
+
+2004-09-09 09:44  minam
+
+	* ext/sqlite-api.c, lib/sqlite/pragmas.rb: Finished documentation.
+
+2004-09-08 22:48  minam
+
+	* ext/sqlite-api.c, lib/sqlite/database.rb,
+	  lib/sqlite/resultset.rb, lib/sqlite/statement.rb,
+	  lib/sqlite/translator.rb, test/tc_database.rb: Added RDoc
+	  documentation.
+
+2004-09-08 16:27  minam
+
+	* COPYING, ChangeLog, LICENSE, README, TODO, install.rb,
+	  sqlite.gemspec, ext/extconf.rb, ext/sqlite-api.c, ext/sqlite.c,
+	  lib/sqlite.rb, lib/sqlite/database.rb, lib/sqlite/pragmas.rb,
+	  lib/sqlite/resultset.rb, lib/sqlite/statement.rb,
+	  lib/sqlite/translator.rb, samples/advanced.rb, samples/dbdef.sql,
+	  samples/define_db.rb, samples/pragma.rb, samples/queries.rb,
+	  test/tc_api_core.rb, test/tc_arrayfields.rb, test/tc_database.rb,
+	  test/tc_pragmas.rb, test/tc_translator.rb,
+	  test/tc_type_translation.rb, test/test_arrayfields.rb,
+	  test/test_db.rb, test/test_errors.rb, test/test_fn.rb,
+	  test/test_pragmas.rb, test/test_results.rb,
+	  test/test_serialize.rb, test/test_types.rb, test/tests.rb,
+	  test/db/fixtures.sql: Version 2.0.0 -- initial check in. Complete
+	  rewrite to get away from callback oriented queries. Now using the
+	  "sqlite_compile" API for doing queries, which is a bit
+	  friendlier.
+
+2004-07-29 08:54  minam
+
+	* ChangeLog: Updated ChangeLog.
+
+2004-07-29 08:53  minam
+
+	* sqlite.gemspec, ext/sqlite.c, test/test_db.rb: Version bump. Also
+	  added constant to SQLite module for querying the version of this
+	  extension library.
+
+2004-07-13 12:09  minam
+
+	* TODO: TODO for version 2.0
+
+2004-07-13 10:49  minam
+
+	* ChangeLog, ext/sqlite.c, test/test_arrayfields.rb: Added Ara's
+	  patch for better ArrayFields integration. Also added a unit test
+	  for testing ArrayFields integration, if 'arrayfields' can be
+	  loaded.
+
+2004-07-11 14:46  minam
+
+	* sqlite.gemspec: Version bump. Looks like the pre-release was
+	  stable enough to work with.
+
+2004-07-03 19:21  minam
+
+	* sqlite.gemspec: Added requirement that Ruby version be at least
+	  1.8.0.
+
+2004-07-03 16:11  minam
+
+	* ChangeLog, ext/sqlite.c, lib/sqlite.rb, test/test_db.rb,
+	  test/test_errors.rb, test/test_serialize.rb,
+	  test/sql/fixtures.sql: Added 'quote', 'decode', and 'encode'
+	  methods on the Database class. Also added exception classes for
+	  each valid return code from the sqlite API.  Updated test cases.
+
+2004-07-03 12:59  minam
+
+	* README: Changed important notice.
+
+2004-07-03 12:54  minam
+
+	* ChangeLog, sqlite.gemspec, ext/sqlite.c, test/test_results.rb:
+	  Removed explicit dependency on arrayfields, and instead made it
+	  optional to have rows returned as arrays instead of hashes. This
+	  allows arrayfields to be used, but not required by the library.
+	  Updated version number to prepare for 1.3.0.
+
+2004-07-01 10:34  minam
+
+	* README: Added notice regarding the change in column indexing.
+
+2004-07-01 10:30  minam
+
+	* ChangeLog: Updated the changelog.
+
+2004-07-01 10:29  minam
+
+	* sqlite.gemspec, test/tests.rb: Brought gemspec into the modern
+	  age (added rdoc and test suite support). Made tests.rb so it can
+	  be run from any directory, instead of requiring that it be
+	  executed from the test directory.
+
+2004-07-01 09:15  minam
+
+	* test/test_results.rb: Test case for verifying the correct
+	  behavior of the hash-based and arrayfields-based result sets.
+
+2004-07-01 09:14  minam
+
+	* ChangeLog, sqlite.gemspec, ext/sqlite.c, lib/sqlite.rb,
+	  samples/advanced.rb, samples/pragma.rb, samples/queries.rb,
+	  test/test_types.rb: Result set columns are now indexed from 0
+	  instead of 1. Also, if the 'arrayfields' module is installed, it
+	  will be used by default for returning result set rows, instead of
+	  a hash. Also fixed all samples and tests to use the 0-based index
+	  for columns.
+
+2004-06-30 15:30  minam
+
+	* install.rb: The install.rb script now passes all parameters to
+	  the extconf.rb script, so that customized installations may be
+	  accomplished.
+
+2004-06-02 09:18  minam
+
+	* test/: test_types.rb, sql/fixtures.sql: Added test case for NULL
+	  boolean columns.
+
+2004-05-25 16:19  minam
+
+	* ChangeLog: A. Howard's patch for extconf.rb
+
+2004-05-25 16:12  minam
+
+	* ext/extconf.rb: Patch from Ara Howard to allow compiling of the
+	  module when SQLite is installed in a non-standard location.
+
+2004-05-20 07:20  minam
+
+	* sqlite.gemspec: Version number bump.
+
+2004-05-17 08:01  minam
+
+	* ChangeLog: Updated ChangeLog
+
+2004-05-17 07:59  minam
+
+	* ext/sqlite.c: Changed how the version and encoding are obtained,
+	  since in Windows you have to call a function (can't refer to an
+	  exported constant, I guess).
+
+2004-05-12 10:30  minam
+
+	* sqlite.gemspec: Version number bump.
+
+2004-05-12 10:22  minam
+
+	* ChangeLog, ext/sqlite.c, lib/sqlite.rb, test/test_db.rb,
+	  test/test_fn.rb, test/test_pragmas.rb, test/test_types.rb,
+	  test/tests.rb, test/sql/fixtures.sql: Added test cases. Fixed
+	  bugs (boolean type-translation flip-flop, missing "open" alias
+	  for "Database#new", problem with NULL handling when
+	  type-translation was on). Refactored the pragma methods in
+	  Database to make them more consistent.
+
+2004-05-11 17:04  minam
+
+	* ChangeLog: Forgot to update ChangeLog...
+
+2004-05-11 16:57  minam
+
+	* README, sqlite.gemspec, ext/sqlite.c: Apparently, the metadata
+	  columns do not have types. This caused pragma queries to crash
+	  when show_datatypes was turned on. Metadata columns now have
+	  their types reported as "STRING".
+
+2004-05-11 11:25  minam
+
+	* install.rb: Had one copy line in there twice. Oops.
+
+2004-05-11 10:42  minam
+
+	* ChangeLog, README, install.rb, sqlite.gemspec, COPYING,
+	  ext/extconf.rb, ext/sqlite.c, lib/sqlite.rb, samples/advanced.rb,
+	  samples/dbdef.sql, samples/define_db.rb, samples/pragma.rb,
+	  samples/queries.rb: Copy from sf.net
+
+2004-05-11 10:42  minam
+
+	* ChangeLog, README, install.rb, sqlite.gemspec, COPYING,
+	  ext/extconf.rb, ext/sqlite.c, lib/sqlite.rb, samples/advanced.rb,
+	  samples/dbdef.sql, samples/define_db.rb, samples/pragma.rb,
+	  samples/queries.rb: Initial revision
+
