@@ -1,0 +1,34 @@
+= SQLite/Ruby Interface
+
+This module allows Ruby programs to interface with the SQLite
+database engine (http://www.sqlite.org).  You must have the
+SQLite engine installed in order to build this module.
+
+Note that this module is NOT compatible with SQLite 3.
+
+
+== Compilation and Installation
+
+Simply do the following, after installing SQLite:
+
+  ruby install.rb
+
+Alternatively, you can download and install the RubyGem package for
+SQLite/Ruby (you must have RubyGems and SQLite installed, first):
+
+  gem install --remote sqlite-ruby
+
+
+== Usage
+
+For help figuring out the SQLite/Ruby interface, check out the
+FAQ[http://sqlite-ruby.rubyforge.org/faq.html]. It includes examples of
+usage. If you have any questions that you feel should be address in the
+FAQ, please send them to jgb3@email.byu.edu.
+
+
+== Contact Information
+
+The project page is http://rubyforge.org/projects/sqlite-ruby. There, you can find
+links to mailing lists and forums that you can use to discuss this library. Additionally,
+there are trackers for submitting bugs and feature requests. Feel free to use them!
