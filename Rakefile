@@ -45,17 +45,7 @@ task :clean do
   rm_rf "pkg"
   rm_rf "api"
   rm_rf "test/lib"
-  rm_f  "ChangeLog"
   rm_f  "doc/faq/faq.html"
-end
-
-desc "Generate the changelog using cvs2cl.pl"
-task :changelog => "ChangeLog"
-
-file "ChangeLog" do
-  unless system "cvs2cl.pl"
-    warn "could not generate ChangeLog (cvs2cl.pl missing?)"
-  end
 end
 
 desc "Generate the FAQ document"
@@ -82,10 +72,10 @@ bz2_file = "#{package_name}.tar.bz2"
 zip_file = "#{package_name}.zip"
 gem_file = "#{package_name}.gem"
 
-task :gzip => SOURCE_FILES + [ :changelog, :faq, :rdoc, "#{package_dir}/#{gz_file}" ]
-task :bzip => SOURCE_FILES + [ :changelog, :faq, :rdoc, "#{package_dir}/#{bz2_file}" ]
-task :zip  => SOURCE_FILES + [ :changelog, :faq, :rdoc, "#{package_dir}/#{zip_file}" ]
-task :gem  => SOURCE_FILES + [ :changelog, :faq, "#{package_dir}/#{gem_file}" ]
+task :gzip => SOURCE_FILES + [ :faq, :rdoc, "#{package_dir}/#{gz_file}" ]
+task :bzip => SOURCE_FILES + [ :faq, :rdoc, "#{package_dir}/#{bz2_file}" ]
+task :zip  => SOURCE_FILES + [ :faq, :rdoc, "#{package_dir}/#{zip_file}" ]
+task :gem  => SOURCE_FILES + [ :faq, "#{package_dir}/#{gem_file}" ]
 
 task :package => [ :gzip, :bzip, :zip, :gem ]
 
